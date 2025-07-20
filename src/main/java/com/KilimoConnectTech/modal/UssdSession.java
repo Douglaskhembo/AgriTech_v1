@@ -24,4 +24,3 @@ public class UssdSession {
     private Date createdAt;
     private String lastMenu;
 }
-

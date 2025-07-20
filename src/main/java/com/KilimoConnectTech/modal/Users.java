@@ -32,9 +32,10 @@ public class Users {
     private String password;
     private String company;
     private String email;
-    private Boolean status;
+    private boolean status;
     private Date createDate;
     private Date last_login;
     private String resetPassword;
     private Users createdBy;
+    private String registrationType;
 }
