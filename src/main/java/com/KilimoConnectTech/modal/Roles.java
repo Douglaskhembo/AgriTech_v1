@@ -6,22 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "sys_kc_buyers")
-public class Buyer {
+@Table(name = "sys_kc_roles")
+public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long buyerId;
+    private Long roleId;
 
-    private String buyerName;
-    private String company;
-    private String email;
-    private String phoneNumber;
-    private String county;
+    private String roleName;
+    private Date createDate;
+    private Users createdBy;
 }
-

@@ -1,6 +1,7 @@
-package com.KilimoConnectTech.modal;
+package com.KilimoConnectTech.dto;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,14 +14,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "sys_kc_market_prices")
-public class MarketPrice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MarketPriceDTO {
     private Long priceId;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Products product;
+    private Long prodId;
     private Double pricePerKg;
     private Integer demandScore;
     private Date updatedAt;

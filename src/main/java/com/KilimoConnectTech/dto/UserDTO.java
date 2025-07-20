@@ -1,7 +1,6 @@
-package com.KilimoConnectTech.modal;
+package com.KilimoConnectTech.dto;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +10,10 @@ import java.util.Date;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sys_kc_users")
-public class Users {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Builder
+public class UserDTO {
     private Long userId;
     private String name;
     private String phoneNumber;
@@ -26,9 +21,7 @@ public class Users {
     private String county;
     private String subCounty;
     private String landMark;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Roles role;
+    private Long roleId;
     private String password;
     private String company;
     private String email;
@@ -36,5 +29,4 @@ public class Users {
     private Date createDate;
     private Date last_login;
     private String resetPassword;
-    private Users createdBy;
 }

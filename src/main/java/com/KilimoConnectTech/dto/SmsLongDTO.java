@@ -1,6 +1,6 @@
-package com.KilimoConnectTech.modal;
+package com.KilimoConnectTech.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,15 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "sys_kc_sms_logs")
-public class SmsLog {
+public class SmsLongDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long smsId;
     private String phoneNumber;
     private String message;
     private Date sentDate;
     private String status;
 }
-

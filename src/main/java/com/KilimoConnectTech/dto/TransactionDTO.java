@@ -1,6 +1,6 @@
-package com.KilimoConnectTech.modal;
+package com.KilimoConnectTech.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,20 +13,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "sys_kc_transactions")
-public class Transactions {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TransactionDTO {
     private Long transId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users user;
+    private Long userId;
     private String phoneNumber;
     private String transCode;
     private Double amount;
     private Date transDate;
     private String paymentStatus;
 }
-

@@ -19,18 +19,14 @@ public class ProductListing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listingId;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;
-
     private Double quantity;
-    private String status; // e.g., available, sold, pending
-
+    private String status;
     private Date listingDate;
 }
 
