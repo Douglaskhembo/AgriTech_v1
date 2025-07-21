@@ -38,12 +38,12 @@ public class UserService {
                     throw new BadRequestException("Missing required fields for USSD registration.");
                 }
 
-                if (usersRepository.existsByUsername(request.getIdNumber())) {
+                if (usersRepository.existsByIdNumber(request.getIdNumber())) {
                     throw new BadRequestException("User with Id number already exists");
                 }
 
-//                Roles farmerRole = rolesRepository.findByName("FARMER")
-//                        .orElseThrow(() -> new BadRequestException("role FARMER not found"));
+                Roles role = rolesRepository.findById(request.getRoleId())
+                        .orElseThrow(() -> new BadRequestException("Role not found"));
 
                 Users users = Users.builder()
                         .name(request.getName())
@@ -53,7 +53,7 @@ public class UserService {
                         .landMark(request.getLandMark())
                         .county(request.getCounty())
                         .subCounty(request.getSubCounty())
-//                        .role(farmerRole)
+                        .role(role)
                         .build();
 
                 Users createdUser = usersRepository.save(users);
@@ -63,7 +63,7 @@ public class UserService {
                 entityResponse.setData(createdUser.getUserId());
 
             } else {
-                if (usersRepository.existsByUsername(request.getIdNumber())) {
+                if (usersRepository.existsByIdNumber(request.getIdNumber())) {
                     throw new BadRequestException("User with Id number already exists");
                 }
 

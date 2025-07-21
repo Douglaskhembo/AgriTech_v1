@@ -22,5 +22,7 @@ public class Roles {
 
     private String roleName;
     private Date createDate;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
     private Users createdBy;
 }

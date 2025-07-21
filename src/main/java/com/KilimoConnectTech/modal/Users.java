@@ -36,6 +36,8 @@ public class Users {
     private Date createDate;
     private Date last_login;
     private String resetPassword;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
     private Users createdBy;
     private String registrationType;
 }
