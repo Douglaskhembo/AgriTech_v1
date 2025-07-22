@@ -1,5 +1,6 @@
 package com.KilimoConnectTech.dto;
 
+import com.KilimoConnectTech.utils.RegistrationType;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +29,5 @@ public class UserDTO {
     private Date createDate;
     private Date last_login;
     private String resetPassword;
-    private String registrationType;
+    private RegistrationType registrationType;
 }

@@ -19,10 +19,10 @@ public class ProductListing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listingId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Products product;
     private Double quantity;

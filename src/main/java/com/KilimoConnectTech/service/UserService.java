@@ -1,11 +1,11 @@
 package com.KilimoConnectTech.service;
 
 import com.KilimoConnectTech.dto.UserDTO;
-import com.KilimoConnectTech.modal.Roles;
 import com.KilimoConnectTech.modal.Users;
-import com.KilimoConnectTech.repository.RolesRepository;
 import com.KilimoConnectTech.repository.UsersRepository;
 import com.KilimoConnectTech.utils.EntityResponse;
+import com.KilimoConnectTech.utils.RegistrationType;
+import com.KilimoConnectTech.utils.RoleType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,25 +25,27 @@ public class UserService {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RolesRepository rolesRepository;
 
     public EntityResponse<Long> createUser(UserDTO request) throws BadRequestException {
         EntityResponse<Long> entityResponse = new EntityResponse<>();
+        System.out.println("request>>> " +request);
 
         try {
-            if ("USSD".equalsIgnoreCase(request.getRegistrationType())) {
+            if ("USSD".equalsIgnoreCase(String.valueOf(request.getRegistrationType()))) {
+                System.out.println("ussd passing >>>>>>>>>>>>>>>");
                 if (request.getIdNumber() == null || request.getCounty() == null ||
                         request.getSubCounty() == null || request.getLandMark() == null ||
                         request.getName() == null) {
                     throw new BadRequestException("Missing required fields for USSD registration.");
                 }
+                System.out.println("pass all fields");
 
                 if (usersRepository.existsByIdNumber(request.getIdNumber())) {
                     throw new BadRequestException("User with Id number already exists");
                 }
-
-                Roles role = rolesRepository.findById(request.getRoleId())
-                        .orElseThrow(() -> new BadRequestException("Role not found"));
+                System.out.println("pass id check >>>>>>>");
+                Users createdBy = usersRepository.findByRole(RoleType.ADMIN);
+                System.out.println("Creation by " +createdBy);
 
                 Users users = Users.builder()
                         .name(request.getName())
@@ -53,7 +55,10 @@ public class UserService {
                         .landMark(request.getLandMark())
                         .county(request.getCounty())
                         .subCounty(request.getSubCounty())
-                        .role(role)
+                        .role(RoleType.FARMER)
+                        .createdBy(createdBy)
+                        .phoneNumber(request.getPhoneNumber())
+                        .registrationType(request.getRegistrationType())
                         .build();
 
                 Users createdUser = usersRepository.save(users);
@@ -71,9 +76,6 @@ public class UserService {
                     throw new BadRequestException("User with email already exists");
                 }
 
-                Roles role = rolesRepository.findById(request.getRoleId())
-                        .orElseThrow(() -> new BadRequestException("Role not found"));
-
                 Users creator = usersRepository.findById(request.getUserId())
                         .orElseThrow(() -> new BadRequestException("Creator not found"));
 
@@ -88,9 +90,10 @@ public class UserService {
                         .company(request.getCompany())
                         .county(request.getCounty())
                         .subCounty(request.getSubCounty())
-                        .role(role)
+                        .role(RoleType.FARMER)
                         .phoneNumber(request.getPhoneNumber())
                         .createdBy(creator)
+                        .registrationType(RegistrationType.WEB)
                         .build();
 
                 Users createdUser = usersRepository.save(users);

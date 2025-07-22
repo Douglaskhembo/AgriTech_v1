@@ -1,6 +1,9 @@
 package com.KilimoConnectTech.modal;
 
 
+import com.KilimoConnectTech.utils.RegistrationType;
+import com.KilimoConnectTech.utils.RoleType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +29,8 @@ public class Users {
     private String county;
     private String subCounty;
     private String landMark;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Roles role;
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
     private String password;
     private String company;
     private String email;
@@ -36,8 +38,10 @@ public class Users {
     private Date createDate;
     private Date last_login;
     private String resetPassword;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
+    @JsonIgnore
     private Users createdBy;
-    private String registrationType;
+    @Enumerated(EnumType.STRING)
+    private RegistrationType registrationType;
 }

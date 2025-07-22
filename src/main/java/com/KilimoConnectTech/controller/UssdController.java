@@ -1,37 +1,32 @@
 package com.KilimoConnectTech.controller;
 
 import com.KilimoConnectTech.dto.UserDTO;
-import com.KilimoConnectTech.modal.Roles;
 import com.KilimoConnectTech.modal.UssdSession;
-import com.KilimoConnectTech.repository.RolesRepository;
 import com.KilimoConnectTech.repository.UssdSessionRepository;
+import com.KilimoConnectTech.service.SmsService;
 import com.KilimoConnectTech.service.UserService;
+import com.KilimoConnectTech.utils.RegistrationType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 public class UssdController {
 
     private final UserService userService;
-    private final RolesRepository rolesRepository;
     private final UssdSessionRepository ussdSessionRepository;
+    private final SmsService smsService;
 
     @PostMapping("/ussd/register")
     public String registerViaUssd(@RequestParam String sessionId,
                                   @RequestParam String phoneNumber,
                                   @RequestParam String text) {
 
-        // Clean and split user inputs
         String[] inputs = text == null || text.isEmpty() ? new String[0] : text.split("\\*");
 
-        // Save USSD session for auditing
         UssdSession session = UssdSession.builder()
                 .sessionCode(sessionId)
                 .phoneNumber(phoneNumber)
@@ -40,7 +35,6 @@ public class UssdController {
                 .build();
         ussdSessionRepository.save(session);
 
-        // Build registration flow
         switch (inputs.length) {
             case 0:
                 return "CON Welcome to KilimoConnect!\nEnter your ID Number:";
@@ -55,28 +49,55 @@ public class UssdController {
             case 5:
                 try {
                     UserDTO user = new UserDTO();
-                    user.setIdNumber(inputs[0]);     // ID Number
-                    user.setName(inputs[1]);         // Full Name
-                    user.setCounty(inputs[2]);       // County
-                    user.setSubCounty(inputs[3]);    // Sub-County
-                    user.setLandMark(inputs[4]);     // Landmark
+                    user.setIdNumber(inputs[0]);
+                    user.setName(inputs[1]);
+                    user.setCounty(inputs[2]);
+                    user.setSubCounty(inputs[3]);
+                    user.setLandMark(inputs[4]);
                     user.setPhoneNumber(phoneNumber);
-                    user.setRegistrationType("USSD");
-
-                    // Assign FARMER role
-                    Roles farmerRole = rolesRepository.findByRoleName("FARMER");
-                    if (farmerRole != null) {
-                        user.setRoleId(farmerRole.getRoleId());
-                    }
+                    user.setRegistrationType(RegistrationType.USSD);
 
                     userService.createUser(user);
-                    return "END Registration successful. Thank you for joining KilimoConnect!";
+
+                    // Send SMS Notification
+                    //smsService.sendSms(phoneNumber, "Welcome to KilimoConnect! Your registration was successful.");
+
+                    return "CON Registration successful!\n\nChoose an option:\n1. Make Order\n2. Sell Product\n3. Market Prices\n4. On-demand Products\n5. Exit";
                 } catch (Exception e) {
-                    e.printStackTrace(); // Log the error
+                    e.printStackTrace();
                     return "END Failed to register. Please try again later.";
                 }
             default:
                 return "END Invalid input. Please try again.";
         }
+    }
+
+    @PostMapping("/ussd/make-order")
+    public String makeOrder(@RequestParam String sessionId,
+                            @RequestParam String phoneNumber,
+                            @RequestParam String text) {
+        // Simulate menu
+        return "END To place an order, visit our website or call support at 1234.";
+    }
+
+    @PostMapping("/ussd/sell-product")
+    public String sellProduct(@RequestParam String sessionId,
+                              @RequestParam String phoneNumber,
+                              @RequestParam String text) {
+        return "END To sell a product, our agent will contact you shortly.";
+    }
+
+    @PostMapping("/ussd/market-prices")
+    public String marketPrices(@RequestParam String sessionId,
+                               @RequestParam String phoneNumber,
+                               @RequestParam String text) {
+        return "END Today's Market Prices:\n- Maize: Ksh 45/kg\n- Beans: Ksh 80/kg";
+    }
+
+    @PostMapping("/ussd/on-demand-products")
+    public String onDemandProducts(@RequestParam String sessionId,
+                                   @RequestParam String phoneNumber,
+                                   @RequestParam String text) {
+        return "END On-Demand Products:\n- Organic Fertilizer\n- Hybrid Seeds\n- Pesticides";
     }
 }

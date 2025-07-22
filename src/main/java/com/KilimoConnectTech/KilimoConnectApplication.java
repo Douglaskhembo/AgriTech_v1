@@ -1,14 +1,13 @@
 package com.KilimoConnectTech;
 
-import com.KilimoConnectTech.modal.Roles;
 import com.KilimoConnectTech.modal.Users;
-import com.KilimoConnectTech.repository.RolesRepository;
 import com.KilimoConnectTech.repository.UsersRepository;
+import com.KilimoConnectTech.utils.RegistrationType;
+import com.KilimoConnectTech.utils.RoleType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
@@ -21,15 +20,8 @@ public class KilimoConnectApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initAdminUser(UsersRepository userRepository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
+	public CommandLineRunner initAdminUser(UsersRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-
-			Roles adminRole = rolesRepository.findByRoleName("ADMIN");
-			if (adminRole == null) {
-				adminRole = new Roles();
-				adminRole.setRoleName("ADMIN");
-				adminRole = rolesRepository.save(adminRole);
-			}
 
 			if (!userRepository.existsByIdNumber("00000000")) {
 				Users admin = Users.builder()
@@ -39,12 +31,12 @@ public class KilimoConnectApplication {
 						.county("Nairobi")
 						.subCounty("Westlands")
 						.landMark("HQ")
-						.role(adminRole)
+						.role(RoleType.ADMIN)
 						.password(passwordEncoder.encode("admin123"))
 						.email("admin@kilimo.com")
 						.company("Kilimo")
 						.status(true)
-						.registrationType("WEB")
+						.registrationType(RegistrationType.SYSTEM)
 						.createDate(new Date())
 						.build();
 

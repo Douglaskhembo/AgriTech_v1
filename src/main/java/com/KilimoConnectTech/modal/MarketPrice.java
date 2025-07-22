@@ -18,7 +18,7 @@ public class MarketPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long priceId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Products product;
     private Double pricePerKg;
