@@ -1,7 +1,9 @@
 package com.KilimoConnectTech.controller;
 
 import com.KilimoConnectTech.dto.UserDTO;
+import com.KilimoConnectTech.modal.Products;
 import com.KilimoConnectTech.modal.UssdSession;
+import com.KilimoConnectTech.repository.ProductRepository;
 import com.KilimoConnectTech.repository.UssdSessionRepository;
 import com.KilimoConnectTech.service.SmsService;
 import com.KilimoConnectTech.service.UserService;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class UssdController {
     private final UssdSessionRepository ussdSessionRepository;
     private final SmsService smsService;
     private final UssdService ussdService;
+    private final ProductRepository productRepository;
 
     @PostMapping("/ussd/register")
     public String registerViaUssd(@RequestParam String sessionId,
@@ -93,7 +97,22 @@ public class UssdController {
     public String marketPrices(@RequestParam String sessionId,
                                @RequestParam String phoneNumber,
                                @RequestParam String text) {
-        return "END Today's Market Prices:\n- Maize: Ksh 45/kg\n- Beans: Ksh 80/kg";
+        List<Products> products = productRepository.findAll();
+
+        if (products.isEmpty()) {
+            return "END No market prices available at the moment.";
+        }
+
+        StringBuilder response = new StringBuilder("END Today's Market Prices:\n");
+        for (Products product : products) {
+            response.append("- ")
+                    .append(product.getProdName())
+                    .append(product.getCurrency())
+                    .append(product.getUnitPrice())
+                    .append("/kg\n");
+        }
+
+        return response.toString().trim();
     }
 
     @PostMapping("/ussd/on-demand-products")

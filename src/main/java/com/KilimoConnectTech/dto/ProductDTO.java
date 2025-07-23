@@ -23,4 +23,5 @@ public class ProductDTO {
     private Date creationDate;
     private String category;
     private Date modificationDate;
+    private String currency;
 }

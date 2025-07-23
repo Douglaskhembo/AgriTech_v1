@@ -39,4 +39,5 @@ public class Products {
     @JoinColumn(name = "modified_by")
     @JsonIgnore
     private Users modifiedBy;
+    private String currency;
 }
