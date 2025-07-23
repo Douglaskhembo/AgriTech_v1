@@ -99,6 +99,8 @@ public class ProductService {
 
     public EntityResponse<?> updateProduct(Long prodId, ProductDTO prodRequest, HttpServletRequest request) {
         EntityResponse<Object> response = new EntityResponse<>();
+        Users modifiedBy = usersRepository.findByRole(RoleType.ADMIN);
+
         try {
             Optional<Products> existingProduct = productRepository.findById(prodId);
             if (existingProduct.isEmpty()) {
@@ -113,6 +115,8 @@ public class ProductService {
             product.setUnit(prodRequest.getUnit());
             product.setDescription(prodRequest.getDescription());
             product.setCategory(prodRequest.getCategory());
+            product.setModificationDate(new Date());
+            product.setModifiedBy(modifiedBy);
 
             Products updated = productRepository.save(product);
 
@@ -127,16 +131,16 @@ public class ProductService {
         return response;
     }
 
-    private ProductDTO mapToDTO(Products product) {
-        return ProductDTO.builder()
-                .prodId(product.getProdId())
-                .prodName(product.getProdName())
-                .unitPrice(product.getUnitPrice())
-                .unit(product.getUnit())
-                .description(product.getDescription())
-                .category(product.getCategory())
-                .build();
-    }
+//    private ProductDTO mapToDTO(Products product) {
+//        return ProductDTO.builder()
+//                .prodId(product.getProdId())
+//                .prodName(product.getProdName())
+//                .unitPrice(product.getUnitPrice())
+//                .unit(product.getUnit())
+//                .description(product.getDescription())
+//                .category(product.getCategory())
+//                .build();
+//    }
 
     public ResponseEntity<?> deleteProductById(Long prodId) {
         try {
@@ -153,5 +157,20 @@ public class ProductService {
                     .body("Failed to delete product: " + e.getMessage());
         }
     }
+
+    private ProductDTO mapToDTO(Products product) {
+        return ProductDTO.builder()
+                .prodId(product.getProdId())
+                .prodName(product.getProdName())
+                .unitPrice(product.getUnitPrice())
+                .unit(product.getUnit())
+                .description(product.getDescription())
+                .category(product.getCategory())
+                .creationDate(product.getCreationDate())
+                .modificationDate(product.getModificationDate())
+                .createdBy(product.getCreatedBy() != null ? product.getCreatedBy().getUserId() : null)
+                .build();
+    }
+
 
 }

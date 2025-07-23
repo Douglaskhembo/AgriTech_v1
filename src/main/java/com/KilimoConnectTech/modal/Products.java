@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -21,9 +22,10 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prodId;
     private String prodName;
-    private String unitPrice;
+    private BigDecimal unitPrice;
     private String unit;
     private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     @JsonIgnore
@@ -31,4 +33,10 @@ public class Products {
     private Date creationDate;
     private String category;
     private boolean inStock;
+    private Date modificationDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modified_by")
+    @JsonIgnore
+    private Users modifiedBy;
 }
