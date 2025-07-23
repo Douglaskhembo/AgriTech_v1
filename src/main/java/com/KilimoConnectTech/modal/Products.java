@@ -1,5 +1,6 @@
 package com.KilimoConnectTech.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,11 @@ public class Products {
     private String unitPrice;
     private String unit;
     private String description;
-    private String created_by;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    @JsonIgnore
+    private Users createdBy;
     private Date creationDate;
     private String category;
+    private boolean inStock;
 }

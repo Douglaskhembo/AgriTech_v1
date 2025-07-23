@@ -5,6 +5,7 @@ import com.KilimoConnectTech.modal.UssdSession;
 import com.KilimoConnectTech.repository.UssdSessionRepository;
 import com.KilimoConnectTech.service.SmsService;
 import com.KilimoConnectTech.service.UserService;
+import com.KilimoConnectTech.service.UssdService;
 import com.KilimoConnectTech.utils.RegistrationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class UssdController {
     private final UserService userService;
     private final UssdSessionRepository ussdSessionRepository;
     private final SmsService smsService;
+    private final UssdService ussdService;
 
     @PostMapping("/ussd/register")
     public String registerViaUssd(@RequestParam String sessionId,
