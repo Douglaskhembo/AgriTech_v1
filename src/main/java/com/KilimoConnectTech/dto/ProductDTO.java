@@ -16,13 +16,9 @@ import java.util.Date;
 public class ProductDTO {
     private Long prodId;
     private String prodName;
-    private BigDecimal unitPrice;
-    private String unit;
-    private String description;
     private Long createdBy;
     private Date creationDate;
     private String category;
     private Date modificationDate;
-    private String currency;
     private boolean inStock;
 }

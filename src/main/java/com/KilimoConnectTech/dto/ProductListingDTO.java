@@ -22,4 +22,8 @@ public class ProductListingDTO {
     private boolean status;
     private Date listingDate;
     private Long buyer;
+    private BigDecimal unitPrice;
+    private String currency;
+    private String unit;
+    private String description;
 }

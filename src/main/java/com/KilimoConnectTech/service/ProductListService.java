@@ -53,6 +53,10 @@ public class ProductListService {
                 .quantity(listRequest.getQuantity())
                 .status(true)
                 .listingDate(new Date())
+                .unitPrice(listRequest.getUnitPrice())
+                .currency(listRequest.getCurrency())
+                .unit(listRequest.getUnit())
+                .description(listRequest.getDescription())
                 .buyer(buyer)
                 .build();
 

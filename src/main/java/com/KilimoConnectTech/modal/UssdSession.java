@@ -26,5 +26,7 @@ public class UssdSession {
     private int currentPage;
     private String flowState;
     private Long selectedProductId;
+    @Lob
+    private String tempData;
 
 }

@@ -178,4 +178,9 @@ public class UserService {
     public List<Users> findBuyers() {
         return null;
     }
+
+    public boolean isUserRegistered(String phoneNumber) {
+        return usersRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+
 }

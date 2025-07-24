@@ -30,6 +30,10 @@ public class ProductListing {
     private BigDecimal quantity;
     private boolean status;
     private Date listingDate;
+    private BigDecimal unitPrice;
+    private String currency;
+    private String unit;
+    private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer")
     @JsonIgnore

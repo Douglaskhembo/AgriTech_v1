@@ -22,10 +22,6 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prodId;
     private String prodName;
-    private BigDecimal unitPrice;
-    private String unit;
-    private String description;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     @JsonIgnore
@@ -39,5 +35,4 @@ public class Products {
     @JoinColumn(name = "modified_by")
     @JsonIgnore
     private Users modifiedBy;
-    private String currency;
 }

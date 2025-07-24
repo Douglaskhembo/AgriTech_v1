@@ -21,4 +21,5 @@ public class UssdDTO {
     private int currentPage;
     private String flowState;
     private Long selectedProductId;
+    private String tempData;
 }

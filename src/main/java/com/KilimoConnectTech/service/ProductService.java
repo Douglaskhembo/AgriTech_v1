@@ -35,14 +35,10 @@ public class ProductService {
 
             Products products = Products.builder()
                     .prodName(request.getProdName())
-                    .unitPrice(request.getUnitPrice())
-                    .unit(request.getUnit())
                     .inStock(true)
                     .creationDate(new Date())
                     .createdBy(createdBy)
                     .category(request.getCategory())
-                    .description(request.getDescription())
-                    .currency(request.getCurrency())
                     .build();
 
             Products addedProduct = productRepository.save(products);
@@ -115,21 +111,10 @@ public class ProductService {
             if (prodRequest.getProdName() != null) {
                 product.setProdName(prodRequest.getProdName());
             }
-            if (prodRequest.getUnitPrice() != null) {
-                product.setUnitPrice(prodRequest.getUnitPrice());
-            }
-            if (prodRequest.getUnit() != null) {
-                product.setUnit(prodRequest.getUnit());
-            }
-            if (prodRequest.getDescription() != null) {
-                product.setDescription(prodRequest.getDescription());
-            }
             if (prodRequest.getCategory() != null) {
                 product.setCategory(prodRequest.getCategory());
             }
-            if (prodRequest.getCurrency() != null) {
-                product.setCurrency(prodRequest.getCurrency());
-            }
+
             product.setModificationDate(new Date());
 
             Products updated = productRepository.save(product);
@@ -165,13 +150,10 @@ public class ProductService {
         return ProductDTO.builder()
                 .prodId(product.getProdId())
                 .prodName(product.getProdName())
-                .unitPrice(product.getUnitPrice())
-                .unit(product.getUnit())
-                .description(product.getDescription())
                 .category(product.getCategory())
                 .creationDate(product.getCreationDate())
                 .modificationDate(product.getModificationDate())
-                .currency(product.getCurrency())
+                .inStock(product.isInStock())
                 .createdBy(product.getCreatedBy() != null ? product.getCreatedBy().getUserId() : null)
                 .build();
     }
