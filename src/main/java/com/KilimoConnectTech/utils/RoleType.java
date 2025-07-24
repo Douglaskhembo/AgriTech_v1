@@ -5,5 +5,6 @@ public enum RoleType {
     AGENT,
     FARMER,
     OFFICER,
-    SUPERVISOR
+    SUPERVISOR,
+    BUYER
 }

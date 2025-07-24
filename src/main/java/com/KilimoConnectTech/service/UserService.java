@@ -174,4 +174,8 @@ public class UserService {
     public UserDTO findByUserId(Long userId) {
         return null;
     }
+
+    public List<Users> findBuyers() {
+        return null;
+    }
 }

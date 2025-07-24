@@ -130,6 +130,7 @@ public class ProductService {
             if (prodRequest.getCurrency() != null) {
                 product.setCurrency(prodRequest.getCurrency());
             }
+            product.setModificationDate(new Date());
 
             Products updated = productRepository.save(product);
 

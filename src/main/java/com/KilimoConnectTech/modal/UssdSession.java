@@ -23,4 +23,8 @@ public class UssdSession {
     private String phoneNumber;
     private Date createdAt;
     private String lastMenu;
+    private int currentPage;
+    private String flowState;
+    private Long selectedProductId;
+
 }

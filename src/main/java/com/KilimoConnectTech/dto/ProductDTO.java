@@ -24,4 +24,5 @@ public class ProductDTO {
     private String category;
     private Date modificationDate;
     private String currency;
+    private boolean inStock;
 }

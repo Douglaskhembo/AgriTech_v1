@@ -1,11 +1,13 @@
 package com.KilimoConnectTech.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -20,13 +22,17 @@ public class ProductListing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listingId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users user;
+    @JoinColumn(name = "created_by")
+    private Users createdBy;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Products product;
-    private Double quantity;
-    private String status;
+    private BigDecimal quantity;
+    private boolean status;
     private Date listingDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "buyer")
+    @JsonIgnore
+    private Users buyer;
 }
 
