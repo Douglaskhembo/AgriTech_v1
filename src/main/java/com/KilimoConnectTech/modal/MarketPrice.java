@@ -1,5 +1,6 @@
 package com.KilimoConnectTech.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class MarketPrice {
     private Long priceId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Products product;
     private Double pricePerKg;
     private Integer demandScore;

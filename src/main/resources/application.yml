@@ -28,3 +28,9 @@ africastalking:
   sername: YOUR_USERNAME
   apiKey: YOUR_API_KEY
 
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+

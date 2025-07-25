@@ -130,7 +130,7 @@ public class UserService {
         try {
             response.setMessage("Fetched user by ID");
             response.setStatusCode(HttpStatus.OK.value());
-            response.setData(Optional.empty()); // Replace with actual user lookup
+            response.setData(Optional.empty());
         } catch (Exception e) {
             response.setMessage("Error fetching user: " + e.getMessage());
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());

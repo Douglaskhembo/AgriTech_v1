@@ -23,9 +23,11 @@ public class ProductListing {
     private Long listingId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
+    @JsonIgnore
     private Users createdBy;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Products product;
     private BigDecimal quantity;
     private boolean status;

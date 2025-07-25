@@ -173,7 +173,8 @@ public class UssdController {
 
         StringBuilder res = new StringBuilder("CON Select a product:\n");
         for (int i = 0; i < pageItems.size(); i++) {
-            res.append(i + 1).append(". ").append(pageItems.get(i).getProdName()).append("\n");
+            int globalIndex = currentPage * pageSize + i + 1;
+            res.append(globalIndex).append(". ").append(pageItems.get(i).getProdName()).append("\n");
         }
         if (currentPage < totalPages - 1) res.append("98. Next\n");
         if (currentPage > 0) res.append("99. Back\n");
@@ -187,10 +188,10 @@ public class UssdController {
         Products product = productRepository.findById(productId).orElse(null);
         if (product == null) return "END Product not found.";
 
-        List<ProductListing> listings = productListingRepository.findByListingId(productId).stream()
+        List<ProductListing> listings = productListingRepository.findByProduct_ProdId(productId).stream()
                 .filter(ProductListing::isStatus)
                 .toList();
-
+        System.out.println("listings >>>>>>>>>>>>>>>>" +listings);
         int total = listings.size();
         int totalPages = (int) Math.ceil((double) total / pageSize);
         int currentPage = session.getCurrentPage();
@@ -222,15 +223,21 @@ public class UssdController {
         for (int i = 0; i < pageItems.size(); i++) {
             ProductListing listing = pageItems.get(i);
             Users buyer = listing.getBuyer();
+            String buyerName = (buyer != null && buyer.getName() != null) ? buyer.getName() : "Unknown";
+
             res.append(i + 1).append(". ")
-                    .append(buyer.getName()).append(" - ")
+                    .append(product.getProdName()).append(" - ")
                     .append(listing.getCurrency()).append(" ")
-                    .append(listing.getUnitPrice()).append("/").append(listing.getUnit()).append("\n");
+                    .append(listing.getUnitPrice()).append(" per ")
+                    .append(listing.getUnit()).append(" by ")
+                    .append(buyerName).append("\n");
         }
+
         if (currentPage > 0) res.append("99. Back\n");
         if (currentPage < totalPages - 1) res.append("98. Next\n");
         res.append("#. Products\n00. Home");
 
         return res.toString();
     }
+
 }
